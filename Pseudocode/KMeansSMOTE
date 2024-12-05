@@ -20,6 +20,7 @@ Csampling_weight: sampling weight of a selected cluster defined by diving by sum
 Cnum_of_samples: number of synthetic samples to be generated in a selected cluster
 
 BEGIN
+
 Step 1: Cluster the entire input space into  clusters using k-means clustering
 all_clusters ← kmeans(X)
 
