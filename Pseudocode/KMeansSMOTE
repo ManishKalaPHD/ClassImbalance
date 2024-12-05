@@ -1,0 +1,62 @@
+Pseudo code for KMeansSMOTE
+
+KMeansSMOTE(k, n, m, thresh)
+
+Input variables: 
+k: number of clusters for k-means clustering
+n: number of synthetic samples to be generated
+m: number of nearest neighbours considered by SMOTE
+thresh: threshold for imbalance ratio (clusters with IR>thresh are selected for SMOTEing)
+dim: dimensions or number of features
+
+Intermediate variables: 
+all_clusters: set of all clusters after applying k-means clustering
+selected_clusters: set of clusters selected based on threshold 
+count: number of selected clusters 
+dist: total distance between instances of avalanche day class in any cluster
+Cavg_dist: average distance between avalanche instances in a selected cluster
+Cavg_sparsity: average sparsity of avalanche instances in a selected cluster
+Csampling_weight: sampling weight of a selected cluster defined by diving by sum of all selected clusters’ sparsity
+Cnum_of_samples: number of synthetic samples to be generated in a selected cluster
+
+BEGIN
+Step 1: Cluster the entire input space into  clusters using k-means clustering
+all_clusters ← kmeans(X)
+
+Step 2: Select clusters with high number of minority avalanche day instances
+count = 0
+For i = 1:k
+	imbalance_ratio = num_of_non_avalanche_days/num_of_avalanche_days
+	if imbalance_ratio < thresh
+		selected_clusters = filtered_clusters U all_clusters(i)
+		count = count +1
+	end if
+end for
+
+Step 3: For each selected cluster, SMOTE it based on density of minority avalanche days in it
+
+3a) Compute the sparsity of the selected cluster
+For i = 1:count
+dist = 0
+	For j = 1:num_of_avalanche_days_in_cluster
+		For k = 1:num_of_avalanche_days_in_cluster
+			dist_current = distance(ava_day(j), ava_day(k))
+			dist = dist + dist_current
+		end for
+	end for
+
+Cavg_dist = dist/ num_of_avalanche_days_in_cluster
+Cavg_sparsity = Cavg_dist /(num_of_avalanche_days_in_cluster)dim
+
+end for
+
+total_sparsity = sum of  avg_sparsity of all selected clusters
+Csampling_weight = Cavg_sparsity / total_sparsity
+
+3b) Generate synthetic avalanche days in each cluster based on density
+For i = 1:count
+	Cnum_of_samples = n x C sampling_weight
+	Apply SMOTE to generate Cnum_of_samples samples in cluster i
+end for
+
+END
