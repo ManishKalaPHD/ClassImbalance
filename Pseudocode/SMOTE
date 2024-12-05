@@ -1,0 +1,33 @@
+Pseudo code for SMOTE 
+
+SMOTE(A, N, m)
+
+Input variables: 
+A: number of avalanche days samples
+N: amount of SMOTEd samples
+m: number of neighbours to be considered for each avalanche day
+
+Intermediate variables: 
+num_param: number of parameters
+matrix_smoted: matrix for storing new synthetically generated samples
+matrix_avalanche: matrix of avalanche days samples
+nn_array: array for ‘m’ nearest neighbours of each avalanche day class sample
+
+BEGIN
+
+While desired imbalance ratio not achieved
+For i = 1:A
+    Calculate ‘m’ nearest neighbours of ith avalanche class instance and store their indices in    
+    nn_array;
+    	    For smote_idx = 1:N
+        random_idx = a random index between 1 and m;
+        For j = 1: num_param
+            random_gap = a random number in [0,1];
+          euc_dist = matrix_avalanche (nn_array(random_idx),j) – matrix_avalanche (i,j);
+          matrix_smoted(smote_idx,j )= matrix_avalanche (i,j) + random_gap * 		            euc_dist;
+      end for
+	    end for
+    end for
+end while
+
+END
