@@ -1,0 +1,87 @@
+from sklearn.cluster import KMeans
+from sklearn.neighbors import NearestNeighbors
+import numpy as np
+
+def kmeans_smote(X, k, n, m, thresh):
+    """
+    Perform KMeansSMOTE as per the given pseudocode.
+
+    Parameters:
+    X : numpy.ndarray
+        Input dataset (features).
+    k : int
+        Number of clusters for k-means clustering.
+    n : int
+        Number of synthetic samples to be generated.
+    m : int
+        Number of nearest neighbors considered by SMOTE.
+    thresh : float
+        Threshold for imbalance ratio.
+
+    Returns:
+    numpy.ndarray
+        Augmented dataset with synthetic samples added.
+    """
+    # Step 1: Perform K-Means Clustering
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    cluster_labels = kmeans.fit_predict(X)
+    all_clusters = [X[cluster_labels == i] for i in range(k)]
+
+    # Step 2: Select clusters with high number of minority instances (avalanche days)
+    selected_clusters = []
+    for cluster in all_clusters:
+        num_avalanche_days = np.sum(cluster[:, -1] == 1)  # Assuming avalanche days are labeled as 1
+        num_non_avalanche_days = len(cluster) - num_avalanche_days
+        imbalance_ratio = num_non_avalanche_days / num_avalanche_days if num_avalanche_days > 0 else float('inf')
+
+        if imbalance_ratio < thresh:
+            selected_clusters.append(cluster)
+
+    # Step 3: Perform SMOTE for each selected cluster
+    synthetic_samples = []
+    total_sparsity = 0
+    cluster_sparsities = []
+
+    for cluster in selected_clusters:
+        avalanche_days = cluster[cluster[:, -1] == 1]  # Filter avalanche day instances
+        num_avalanche_days = len(avalanche_days)
+
+        # Compute sparsity of the cluster
+        dist = 0
+        for i in range(num_avalanche_days):
+            for j in range(num_avalanche_days):
+                dist += np.linalg.norm(avalanche_days[i, :-1] - avalanche_days[j, :-1])
+
+        avg_dist = dist / num_avalanche_days if num_avalanche_days > 0 else 0
+        avg_sparsity = avg_dist / (num_avalanche_days * X.shape[1])
+        cluster_sparsities.append(avg_sparsity)
+        total_sparsity += avg_sparsity
+
+    # Compute sampling weights and generate synthetic samples
+    for cluster, avg_sparsity in zip(selected_clusters, cluster_sparsities):
+        sampling_weight = avg_sparsity / total_sparsity
+        num_samples_to_generate = int(n * sampling_weight)
+
+        # Apply SMOTE to generate synthetic samples
+        avalanche_days = cluster[cluster[:, -1] == 1]
+        nn = NearestNeighbors(n_neighbors=m).fit(avalanche_days[:, :-1])
+
+        for _ in range(num_samples_to_generate):
+            idx = np.random.randint(0, len(avalanche_days))
+            neighbors = nn.kneighbors([avalanche_days[idx, :-1]], return_distance=False)[0]
+            neighbor_idx = np.random.choice(neighbors)
+
+            synthetic_sample = avalanche_days[idx, :-1] + np.random.rand() * (
+                avalanche_days[neighbor_idx, :-1] - avalanche_days[idx, :-1]
+            )
+            synthetic_samples.append(np.append(synthetic_sample, 1))
+
+    # Add synthetic samples to the original dataset
+    synthetic_samples = np.array(synthetic_samples)
+    augmented_data = np.vstack((X, synthetic_samples))
+
+    return augmented_data
+
+# Example usage:
+# X is assumed to be a numpy array where the last column contains the class labels (1 for avalanche days, 0 otherwise).
+# kmeans_smote(X, k=5, n=100, m=5, thresh=1.5)
