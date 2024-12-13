@@ -31,6 +31,9 @@ ClassImbalance/
 
 Clone the repository to your local system:  
 
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+
 git clone https://github.com/ManishKalaPHD/ClassImbalance.git
 cd ClassImbalance
 
