@@ -54,7 +54,7 @@ The PythonCode/ folder contains Python scripts:
 1. KMeansSMOTE Implementation: 
    Run the KMeansSMOTE script for clustering-based oversampling.  
    
-   python PythonCode/KMeansSMOTE.py
+   python PythonCode/kMeans_SMOTE.py
    
 
 2. SMOTE Implementation: 
