@@ -81,9 +81,6 @@ License
 This project is licensed under the [MIT License](LICENSE).
 
 
-Here’s a streamlined and focused README tailored to a repository containing only the pseudo-code and Python code for SMOTE and kMeans-SMOTE:
-
----
 
 # README for SMOTE and kMeans-SMOTE Implementations  
 
@@ -94,13 +91,13 @@ This repository contains **pseudo-code** and **Python implementations** for **SM
 ## Repository Structure  
 
 ```plaintext
-your-repo-name/
-├── Pseudocode/                 # Folder containing pseudo-code for SMOTE and kMeans-SMOTE
-│   ├── SMOTE_pseudocode.txt
-│   └── kMeans_SMOTE_pseudocode.txt
+ClassImbalance/
+├── Pseudocode/                 # Folder containing pseudo-code for SMOTE and KMeansSMOTE
+│   ├── SMOTE.txt
+│   └── KMeansSMOTE.txt
 ├── PythonCode/                 # Folder containing Python implementations
 │   ├── SMOTE.py
-│   └── kMeans_SMOTE.py
+│   └── KMeansSMOTE.py
 ├── README.md                   # Project documentation
 └── LICENSE                     # License information
 ```
@@ -121,8 +118,8 @@ your-repo-name/
 
 Clone the repository to your local system:  
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/ManishKalaPHD/ClassImbalance.git
+cd ClassImbalance
 ```
 
 Ensure you have Python 3.8+ and install the required dependencies:  
@@ -135,9 +132,9 @@ pip install numpy scikit-learn
 ## Usage  
 
 ### Pseudo-code  
-The **`Pseudocode/`** folder contains the algorithmic steps for SMOTE and kMeans-SMOTE. You can refer to these files for a high-level understanding of the techniques:  
-- `SMOTE_pseudocode.txt`  
-- `kMeans_SMOTE_pseudocode.txt`
+The **`Pseudocode/`** folder contains the algorithmic steps for SMOTE and KMeansSMOTE. You can refer to these files for a high-level understanding of the techniques:  
+- `SMOTE.txt`  
+- `KMeansSMOTE.txt`
 
 ### Python Code  
 The **`PythonCode/`** folder contains Python scripts:  
@@ -147,14 +144,12 @@ The **`PythonCode/`** folder contains Python scripts:
    python PythonCode/SMOTE.py
    ```
 
-2. **kMeans-SMOTE Implementation:**  
-   Run the kMeans-SMOTE script for clustering-based oversampling.  
+2. **KMeansSMOTE Implementation:**  
+   Run the KMeansSMOTE script for clustering-based oversampling.  
    ```bash
-   python PythonCode/kMeans_SMOTE.py
+   python PythonCode/KMeansSMOTE.py
    ```
-
-### Example Datasets  
-To use your own dataset, replace the example dataset paths in the scripts with your file paths and ensure your data is in a compatible format (e.g., CSV, NumPy array).  
+  
 
 ---
 
@@ -163,7 +158,7 @@ To use your own dataset, replace the example dataset paths in the scripts with y
 1. **SMOTE (Synthetic Minority Oversampling Technique):**  
    SMOTE works by generating synthetic samples for the minority class using interpolation between nearest neighbors in feature space.  
 
-2. **kMeans-SMOTE:**  
+2. **KMeansSMOTE:**  
    A variation of SMOTE that applies kMeans clustering before generating synthetic samples, ensuring better distribution of synthetic samples and reducing overfitting.
 
 ---
@@ -180,7 +175,6 @@ Special thanks to the developers and researchers who contributed to the original
 
 ---
 
-Would you like help drafting pseudo-code or explaining the implementation in more detail?
 
 
 
