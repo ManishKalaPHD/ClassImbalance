@@ -87,14 +87,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgments  
 
-Special thanks to the developers and researchers who contributed to the original design of SMOTE and kMeans-SMOTE algorithms.
+Special thanks to the developers and researchers who contributed to the original design of SMOTE and KMeansSMOTE algorithms.
 
 ---
-
-
-
-
-Acknowledgments  
-
-Special thanks to the developers and researchers who contributed to the original design of SMOTE and kMeans-SMOTE algorithms.
-
